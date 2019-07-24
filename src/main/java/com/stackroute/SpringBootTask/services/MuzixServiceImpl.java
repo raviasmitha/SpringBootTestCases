@@ -59,5 +59,10 @@ public class MuzixServiceImpl implements MuzixService {
 
     }
 
+    public List<Muzix> getBYName(String name) {
+        List<Muzix> user_id = muzixRepository.findTitleByName(name);
+
+        return user_id;
+    }
 
 }

@@ -17,4 +17,7 @@ public interface MuzixService {
 
     public boolean updateById(Muzix musix, int id);
 
+    public List<Muzix> getBYName(String name);
+
+
 }
