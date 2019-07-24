@@ -1,6 +1,8 @@
 package com.stackroute.SpringBootTask.services;
 
 import com.stackroute.SpringBootTask.domain.Muzix;
+import com.stackroute.SpringBootTask.exceptions.TrackAlreadyExistsException;
+import com.stackroute.SpringBootTask.exceptions.TrackNotFoundException;
 import com.stackroute.SpringBootTask.repository.MuzixRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,9 +21,16 @@ public class MuzixServiceImpl implements MuzixService {
     }
 
     @Override
-    public Muzix saveMusix(Muzix muzix) {
-        Muzix savedMuzix = muzixRepository.save(muzix);
-        return savedMuzix;
+    public Muzix saveMusix(Muzix muzix) throws TrackAlreadyExistsException {
+
+        if (muzixRepository.existsById(muzix.getId())) {
+
+            throw new TrackAlreadyExistsException("Track already exists with id  : " + muzix.getId());
+        }
+
+            Muzix savedMusix = muzixRepository.save(muzix);
+
+            return savedMusix;
     }
 
     @Override
@@ -31,10 +40,18 @@ public class MuzixServiceImpl implements MuzixService {
     }
 
     @Override
-    public Muzix getById(int id) {
+    public Muzix getById(int id) throws TrackNotFoundException {
         Optional<Muzix> user_id = muzixRepository.findById(id);
 
+        if (!user_id.isPresent())
+
+                throw new TrackNotFoundException("Record not found");
+
+
         return user_id.get();
+
+
+
     }
 
     @Override

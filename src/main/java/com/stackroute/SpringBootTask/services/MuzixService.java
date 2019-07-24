@@ -1,17 +1,19 @@
 package com.stackroute.SpringBootTask.services;
 
 import com.stackroute.SpringBootTask.domain.Muzix;
+import com.stackroute.SpringBootTask.exceptions.TrackAlreadyExistsException;
+import com.stackroute.SpringBootTask.exceptions.TrackNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 public interface MuzixService {
 
-    public Muzix saveMusix(Muzix musix);
+    public Muzix saveMusix(Muzix musix) throws TrackAlreadyExistsException;
 
     public List<Muzix> getMusix();
 
-    public Muzix getById(int id) ;
+    public Muzix getById(int id) throws TrackNotFoundException;
 
     public void deleteById(int id);
 

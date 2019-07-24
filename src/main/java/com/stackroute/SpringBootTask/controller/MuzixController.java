@@ -1,6 +1,8 @@
 package com.stackroute.SpringBootTask.controller;
 
 import com.stackroute.SpringBootTask.domain.Muzix;
+import com.stackroute.SpringBootTask.exceptions.TrackAlreadyExistsException;
+import com.stackroute.SpringBootTask.exceptions.TrackNotFoundException;
 import com.stackroute.SpringBootTask.services.MuzixService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,11 +25,17 @@ public class MuzixController {
 
     @PostMapping("/muzix")
 
-    public ResponseEntity<?> saveMusix(@RequestBody Muzix muzix){
-        ResponseEntity responseEntity;
-        muzixService.saveMusix(muzix);
-        responseEntity= new ResponseEntity("Successfully created", HttpStatus.CREATED);
-        return responseEntity;
+    public ResponseEntity<?> saveMusix(@RequestBody Muzix muzix) throws TrackAlreadyExistsException {
+        Muzix savedMuzix = null;
+
+      try {
+        savedMuzix = muzixService.saveMusix(muzix);
+        }
+        catch (TrackAlreadyExistsException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.ALREADY_REPORTED);
+        }
+
+        return new ResponseEntity<>(savedMuzix, HttpStatus.OK);
     }
 
     /* This method will retrive musix by using Query parameter */
@@ -44,10 +52,15 @@ public class MuzixController {
 
     @GetMapping("/muzix/{id}")
 
-    public ResponseEntity<?> getById(@PathVariable int id)  {
-
+    public ResponseEntity<?> getById(@PathVariable int id) throws TrackNotFoundException {
         Muzix muzix = null;
+
+       try {
         muzix = muzixService.getById(id);
+         }
+        catch(TrackNotFoundException t){
+            return new ResponseEntity<>(t.getMessage(),HttpStatus.NOT_FOUND);
+        }
 
         return new ResponseEntity<Muzix>(muzix, HttpStatus.OK);
     }
