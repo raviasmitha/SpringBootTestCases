@@ -74,8 +74,11 @@ public class MuzixServiceImpl implements MuzixService , ApplicationListener<Cont
     }
 
     @Override
-    public void deleteById(int id) {
+    public Muzix deleteById(int id) throws TrackNotFoundException {
         muzixRepository.deleteById(id);
+        MuzixService muzixService= null;
+        return  muzixService.getById(id);
+
 
     }
 

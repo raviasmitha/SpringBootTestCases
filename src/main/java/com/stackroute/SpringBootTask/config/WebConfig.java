@@ -1,4 +1,4 @@
-package com.stackroute.SpringBootTask.config;
+/*package com.stackroute.SpringBootTask.config;
 
 import org.h2.server.web.WebServlet;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
@@ -15,3 +15,4 @@ public class WebConfig {
         return registrationBean;
     }
 }
+*/
